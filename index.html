@@ -49,6 +49,7 @@
         .project-card:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
         .cta-button {
@@ -59,6 +60,112 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
+        /* New dynamic animation for section content on scroll */
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Parallax container for the hero section */
+        .hero-parallax-container {
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Modal styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.is-visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+        
+        /* Neon text effect for the name */
+        .neon-text {
+            color: #d1f5ee; /* A bright, slightly off-white for the text */
+            text-shadow:
+                0 0 7px #38bdf8,
+                0 0 10px #38bdf8,
+                0 0 21px #38bdf8,
+                0 0 42px #67e8f9,
+                0 0 82px #67e8f9,
+                0 0 92px #67e8f9,
+                0 0 102px #67e8f9;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                    0 0 7px #38bdf8,
+                    0 0 10px #38bdf8,
+                    0 0 21px #38bdf8,
+                    0 0 42px #67e8f9,
+                    0 0 82px #67e8f9,
+                    0 0 92px #67e8f9,
+                    0 0 102px #67e8f9;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-gray-200 min-h-screen flex items-center justify-center py-10">
@@ -66,26 +173,26 @@
         <div class="bg-slate-800 shadow-2xl rounded-3xl overflow-hidden max-w-4xl mx-auto transform transition duration-500 hover:scale-[1.03]">
             
             <!-- Hero Section -->
-            <div class="relative bg-gradient-to-br from-gray-900 to-black text-white p-8 sm:p-12 text-center rounded-t-3xl">
-                <div class="relative z-10">
+            <div id="hero" class="relative bg-gradient-to-br from-gray-900 to-black text-white p-8 sm:p-12 text-center rounded-t-3xl">
+                <div class="relative z-10 hero-parallax-container">
                     <img src="https://placehold.co/128x128/FFFFFF/000000?text=Profile" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-white mx-auto shadow-lg mb-4 profile-picture">
-                    <h1 class="text-4xl sm:text-5xl font-bold mb-2 drop-shadow-lg">Sreehari T S</h1>
-                    <p class="text-xl sm:text-2xl font-light drop-shadow">B.Tech Computer Science Student</p>
-                    <p class="text-md sm:text-lg mt-2 drop-shadow">Vidya Academy of Science and Technology</p>
+                    <h1 class="text-4xl sm:text-5xl font-bold mb-2 drop-shadow-lg neon-text"><strong>Sreehari T S</strong></h1>
+                    <p class="text-xl sm:text-2xl font-light drop-shadow"><strong>B.Tech Computer Science</strong> Student</p>
+                    <p class="text-md sm:text-lg mt-2 drop-shadow"><strong>Vidya Academy of Science and Technology</strong></p>
                 </div>
             </div>
 
             <div class="p-6 sm:p-8">
                 <!-- About Me Section -->
-                <section class="mb-8">
+                <section class="mb-8 animate-on-scroll" data-animation-offset="200">
                     <h2 class="text-2xl sm:text-3xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-700 pb-2">About Me</h2>
                     <p class="text-gray-300 text-base sm:text-lg leading-relaxed">
-                        I am a dedicated Computer Science student from **Arimbur**, currently pursuing my B.Tech degree at **Vidya Academy of Science and Technology**. I am passionate about learning and applying my knowledge in real-world scenarios. My academic journey is focused on building a strong foundation in core computer science principles and developing practical skills in various technologies.
+                        I am a dedicated Computer Science student from <strong>Arimbur</strong>, currently pursuing my <strong>B.Tech Computer Science</strong> degree at <strong>Vidya Academy of Science and Technology</strong>. I am passionate about learning and applying my knowledge in real-world scenarios. My academic journey is focused on building a strong foundation in core computer science principles and developing practical skills in various technologies.
                     </p>
                 </section>
 
                 <!-- Skills Section -->
-                <section class="mb-8">
+                <section class="mb-8 animate-on-scroll" data-animation-offset="200">
                     <h2 class="text-2xl sm:text-3xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-700 pb-2">Skills</h2>
                     <div class="flex flex-wrap gap-3">
                         <span class="bg-slate-700 text-teal-300 text-sm font-medium px-4 py-2 rounded-full shadow-md transition duration-300 hover:bg-slate-600 skill-tag">Programming (C++, Python)</span>
@@ -97,16 +204,16 @@
                 </section>
 
                 <!-- Projects Section -->
-                <section class="mb-8">
+                <section class="mb-8 animate-on-scroll" data-animation-offset="200">
                     <h2 class="text-2xl sm:text-3xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-700 pb-2">Projects</h2>
                     <div class="grid gap-6 md:grid-cols-2">
-                        <!-- Placeholder Project 1 -->
-                        <div class="bg-slate-700 p-6 rounded-xl shadow-md transition duration-300 hover:shadow-lg hover:bg-slate-600 project-card">
+                        <!-- Project 1 with data attributes for the modal -->
+                        <div class="bg-slate-700 p-6 rounded-xl shadow-md transition duration-300 hover:shadow-lg hover:bg-slate-600 project-card" data-project-id="1">
                             <h3 class="text-gray-200 text-xl font-bold mb-2">Project Title One</h3>
                             <p class="text-gray-400 text-sm">A brief description of my first project, highlighting the technologies used and its purpose.</p>
                         </div>
-                        <!-- Placeholder Project 2 -->
-                        <div class="bg-slate-700 p-6 rounded-xl shadow-md transition duration-300 hover:shadow-lg hover:bg-slate-600 project-card">
+                        <!-- Project 2 with data attributes for the modal -->
+                        <div class="bg-slate-700 p-6 rounded-xl shadow-md transition duration-300 hover:shadow-lg hover:bg-slate-600 project-card" data-project-id="2">
                             <h3 class="text-gray-200 text-xl font-bold mb-2">Project Title Two</h3>
                             <p class="text-gray-400 text-sm">A brief description of my second project, outlining the problem it solves and my role in its development.</p>
                         </div>
@@ -114,10 +221,10 @@
                 </section>
 
                 <!-- Contact Section -->
-                <section>
+                <section class="animate-on-scroll" data-animation-offset="200">
                     <h2 class="text-2xl sm:text-3xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-700 pb-2">Contact</h2>
                     <p class="text-gray-300 text-base mb-4">Feel free to connect with me! Let's build something great together.</p>
-                    <form class="space-y-4">
+                    <form id="contactForm" class="space-y-4">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
                             <input type="text" id="name" class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-teal-400 focus:ring-teal-400 p-2 border bg-slate-700 text-white">
@@ -134,6 +241,10 @@
                             Send Message
                         </button>
                     </form>
+                    <!-- Confirmation message for the contact form -->
+                    <div id="formConfirmation" class="hidden mt-4 p-4 rounded-lg text-white font-medium text-center" role="alert">
+                        <!-- Message will be inserted here by JavaScript -->
+                    </div>
                 </section>
             </div>
             
@@ -143,7 +254,122 @@
             </footer>
         </div>
     </div>
+
+    <!-- Modal for Project Details -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 id="modalTitle" class="text-2xl font-bold mb-2"></h3>
+            <p id="modalDescription" class="text-gray-400"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript for dynamic effects and pop-ups -->
+    <script>
+        // Smooth scroll animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.animate-on-scroll');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Hero section parallax effect on mouse move
+        const heroSection = document.getElementById('hero');
+        const heroContent = document.querySelector('.hero-parallax-container');
+
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calculate the position relative to the center of the element
+            const xPercent = (x / rect.width - 0.5) * 2;
+            const yPercent = (y / rect.height - 0.5) * 2;
+
+            // Apply a subtle 3D transform for the parallax effect
+            heroContent.style.transform = `translate3d(${xPercent * 10}px, ${yPercent * 10}px, 0)`;
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            heroContent.style.transform = `translate3d(0, 0, 0)`;
+        });
+
+        // Project Modal Pop-up Logic
+        const projectCards = document.querySelectorAll('.project-card');
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalCloseBtn = document.querySelector('.modal-close');
+
+        // Sample project data (can be replaced with a real database)
+        const projectData = {
+            1: {
+                title: "Project Title One",
+                description: "This project was developed using a tech stack of HTML, CSS, and JavaScript. It's a responsive web application designed to solve [insert problem] and features a clean user interface and smooth performance."
+            },
+            2: {
+                title: "Project Title Two",
+                description: "This project focused on data manipulation and algorithm design. I utilized Python and SQL to build a system that can [insert function]. The primary goal was to improve efficiency and accuracy in [insert domain]."
+            }
+        };
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.dataset.projectId;
+                const project = projectData[projectId];
+                
+                if (project) {
+                    modalTitle.textContent = project.title;
+                    modalDescription.textContent = project.description;
+                    modal.classList.add('is-visible');
+                }
+            });
+        });
+
+        // Close the modal when the close button or backdrop is clicked
+        modalCloseBtn.addEventListener('click', () => {
+            modal.classList.remove('is-visible');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('is-visible');
+            }
+        });
+
+        // Contact Form Pop-up Logic
+        const contactForm = document.getElementById('contactForm');
+        const formConfirmation = document.getElementById('formConfirmation');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevents the form from actually submitting
+            formConfirmation.textContent = "Thank you! Your message has been sent successfully.";
+            formConfirmation.classList.remove('hidden');
+            formConfirmation.classList.add('bg-teal-500');
+
+            // Optionally, clear the form after a short delay
+            setTimeout(() => {
+                contactForm.reset();
+                formConfirmation.classList.add('hidden');
+                formConfirmation.classList.remove('bg-teal-500');
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
-
-
